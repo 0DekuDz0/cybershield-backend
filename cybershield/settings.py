@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-r#fo)9m#&^07rrdh9qy2-ke-rt^j8-0@#n2ubap*&b_5&^unnw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'cybershield-backend-production.up.railway.app',
+
+]
 
 LOGIN_URL = None
 
