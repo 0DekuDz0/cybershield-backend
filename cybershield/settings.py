@@ -80,7 +80,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://cybershield-front.vercel.app/",
+    "https://cybershield-front.vercel.app",
     "http://localhost:5174",
     "http://127.0.0.1:5174"
 ]
