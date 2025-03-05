@@ -127,21 +127,24 @@ def get_participants_by_team(request):
 @api_view(['POST'])
 def add_participant(request):
     try:
+        data = json.loads(request.body)
         if request.method == 'POST':
-            participant_name = request.POST.get('participant_name')
-            participant_email = request.POST.get('participant_email')
-            participant_phone = request.POST.get('participant_phone')
-            participant_dateOfBirth = request.POST.get('participant_dateOfBirth')
-            participant_skills = request.POST.get('participant_skills')
-            participant_linkedin = request.POST.get('participant_linkedin')
-            participant_github = request.POST.get('participant_github')
-            participant_portfolio = request.POST.get('participant_portfolio')
-            participant_haveParticipated = request.POST.get('participant_haveParticipated')
-            participant_previousExperience = request.POST.get('participant_previousExperience')
-            participant_status = request.POST.get('participant_status')
-            participant_team = request.POST.get('participant_team')
-            new_team = request.POST.get('new_team')
-            team_name = request.POST.get('team_name')
+            participant_name = request.data.get('participant_name')
+            participant_email = request.data.get('participant_email')
+            participant_phone = request.data.get('participant_phone')
+            participant_dateOfBirth = request.data.get('participant_dateOfBirth')
+            participant_skills = request.data.get('participant_skills')
+            participant_linkedin = request.data.get('participant_linkedin')
+            participant_github = request.data.get('participant_github')
+            participant_portfolio = request.data.get('participant_portfolio')
+            participant_haveParticipated = request.data.get('participant_haveParticipated')
+            participant_previousExperience = request.data.get('participant_previousExperience')
+            participant_status = request.data.get('participant_status')
+            participant_team = request.data.get('participant_team')
+            new_team = request.data.get('new_team')
+            team_name = request.data.get('team_name')
+
+            print("New team",new_team)
 
             # Vérifier les champs obligatoires
             required_fields = [
@@ -168,6 +171,7 @@ def add_participant(request):
             )
 
             if new_team == 'True':
+                print("********Creating new team")
                 participant.save()  
                 team = Team(team_name=team_name, team_leader=participant)
                 team.save()
@@ -381,7 +385,7 @@ def update_team(request):
 def login(request):
     try:
         if request.method == 'POST':
-            email = request.data.get('admin_email')  # Utiliser request.data avec DRF
+            email = request.data.get('admin_email') 
             password = request.data.get('admin_password')
 
             if not email or not password:
@@ -389,7 +393,7 @@ def login(request):
             
             admin = get_object_or_404(Admin, email=email)
 
-            if not admin.check_password(password):  # Vérification correcte du mot de passe
+            if not admin.check_password(password): 
                 return Response({'error': 'Invalid password'}, status=401)
 
             refresh = RefreshToken.for_user(admin)
@@ -397,11 +401,15 @@ def login(request):
                 "user": model_to_dict(admin),
             })
             response.set_cookie(
-                'access-token',str(refresh.access_token),
+                key='CyberShieldToken',
+                value=str(refresh.access_token),
                 httponly=True,
                 max_age=timedelta(days=1),
-                samesite='Strict',
+                samesite='None',
+                path='/',
+                secure=True,
             )
+            # print(response.cookies)
 
             return response
                     

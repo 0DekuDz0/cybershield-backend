@@ -33,6 +33,7 @@ LOGIN_URL = None
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,6 +59,7 @@ CSRF_COOKIE_SECURE = True
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,6 +68,29 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5174",
+    "http://127.0.0.1:5174"
+]
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    "x-csrftoken",
+]
+
+CORS_ALLOW_CREDENTIALS = True  
+
+# SESSION_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SECURE = False  # Mettre True en production
+# CSRF_COOKIE_SAMESITE = 'None'
+# CSRF_COOKIE_SECURE = False  # Mettre True en production
+
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True  # ✅ Mettre True pour HTTPS
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True  # ✅ Mettre True pour HTTPS
 
 ROOT_URLCONF = 'cybershield.urls'
 
