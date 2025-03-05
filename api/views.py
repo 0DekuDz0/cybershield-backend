@@ -13,6 +13,7 @@ from .decorators import is_admin
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 @csrf_exempt
 @api_view(['GET']) 
 @is_admin
