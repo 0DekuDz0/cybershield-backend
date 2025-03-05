@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'cybershield-backend-production.up.railway.app',
+    'localhost',
+    '127.0.0.1'
 
 ]
 
