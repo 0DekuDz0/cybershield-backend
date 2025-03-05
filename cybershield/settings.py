@@ -128,10 +128,15 @@ AUTH_USER_MODEL = 'api.Admin'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
-
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'DBziWGugXeZWgfDyoMCuGpTFPzPfMJSd',
+        'HOST': 'yamabiko.proxy.rlwy.net',
+        'PORT': '20938',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
