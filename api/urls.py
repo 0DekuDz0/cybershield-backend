@@ -19,5 +19,6 @@ urlpatterns = [
     path('update_team/', views.update_team),
     path('delete_team/', views.delete_team),
     path('login/', views.login),
+    path('check_admin_auth/', views.check_admin_auth),
     
 ]
