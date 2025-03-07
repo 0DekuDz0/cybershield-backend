@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Participant,Team,Admin
@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 from .decorators import is_admin
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
 
 
 @csrf_exempt
@@ -415,5 +416,27 @@ def login(request):
             return response
                     
 
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@is_admin
+def check_admin_auth(req):
+    try:
+        if req.method == 'GET':
+            token = req.COOKIES.get('CyberShieldToken')
+
+            if not token:
+                return Response({'error': 'You are not authorized to access this page'}, status=403)
+            access_token_obj = AccessToken(token)
+            now = datetime.now().timestamp()
+            if access_token_obj['exp']< now:
+                return Response({'error': 'You are not authorized to access this page'}, status=403)
+            admin = Admin.objects.get(id=access_token_obj['id'])
+            if not admin:
+                return Response({'error': 'You are not authorized to access this page'}, status=403)
+            return Response({'message': 'You are authorized to access this page' , "authentication": True}, status=200)
     except Exception as e:
         return Response({'error': str(e)}, status=500)
