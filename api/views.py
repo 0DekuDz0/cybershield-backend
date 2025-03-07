@@ -434,7 +434,7 @@ def check_admin_auth(req):
             now = datetime.now().timestamp()
             if access_token_obj['exp']< now:
                 return Response({'error': 'You are not authorized to access this page'}, status=403)
-            admin = Admin.objects.get(id=access_token_obj['id'])
+            admin = Admin.objects.get(id=access_token_obj['user_id'])
             if not admin:
                 return Response({'error': 'You are not authorized to access this page'}, status=403)
             return Response({'message': 'You are authorized to access this page' , "authentication": True}, status=200)
