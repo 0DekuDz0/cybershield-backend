@@ -28,7 +28,6 @@ def get_participants(request):
         return Response({'error': str(e)}, status=500)
 
 
-@login_required
 @csrf_exempt
 @api_view(['GET'])
 @is_admin
@@ -48,7 +47,6 @@ def get_participant_by_id(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
 
-@login_required
 @csrf_exempt
 @api_view(['GET'])
 @is_admin
@@ -68,7 +66,6 @@ def get_participants_by_name(request):
     
 
 
-@login_required
 @csrf_exempt
 @api_view(['GET'])
 @is_admin
@@ -88,7 +85,6 @@ def get_participant_by_email(request):
         return Response({'error': str(e)}, status=500)
 
 
-@login_required
 @csrf_exempt
 @api_view(['GET'])
 @is_admin
@@ -107,7 +103,6 @@ def get_participants_by_status(request):
         return Response({'error': str(e)}, status=500)
 
 
-@login_required
 @csrf_exempt
 @api_view(['GET'])
 @is_admin
@@ -199,7 +194,6 @@ def add_participant(request):
         return Response({'error': str(e)}, status=500)
 
 
-@login_required
 @csrf_exempt
 @api_view(['DELETE'])
 @is_admin
@@ -214,27 +208,26 @@ def delete_participant(request):
         return Response({'error': str(e)}, status=500)
 
 
-@login_required
 @csrf_exempt
 @api_view(['PUT'])
 @is_admin
 def update_participant(request):
+    print(request)
     try:
         if request.method == 'PUT':
-            participant_id = request.GET.get('participant_id')
-            participant_name = request.GET.get('participant_name')
-            participant_email = request.GET.get('participant_email')
-            participant_phone = request.GET.get('participant_phone')
-            participant_dateOfBirth = request.GET.get('participant_dateOfBirth')
-            participant_skills = request.GET.get('participant_skills')
-            participant_linkedin = request.GET.get('participant_linkedin')
-            participant_github = request.GET.get('participant_github')
-            participant_portfolio = request.GET.get('participant_portfolio')
-            participant_haveParticipated = request.GET.get('participant_haveParticipated')
-            participant_previousExperience = request.GET.get('participant_previousExperience')
-            participant_status = request.GET.get('participant_status')
-            participant_team = request.GET.get('participant_team')
-
+            participant_id = request.data.get('participant_id')
+            participant_name = request.data.get('participant_name')
+            participant_email = request.data.get('participant_email')
+            participant_phone = request.data.get('participant_phone')
+            participant_dateOfBirth = request.data.get('participant_dateOfBirth')
+            participant_skills = request.data.get('participant_skills')
+            participant_linkedin = request.data.get('participant_linkedin')
+            participant_github = request.data.get('participant_github')
+            participant_portfolio = request.data.get('participant_portfolio')
+            participant_haveParticipated = request.data.get('participant_haveParticipated')
+            participant_previousExperience = request.data.get('participant_previousExperience')
+            participant_status = request.data.get('participant_status')
+            participant_team = request.data.get('participant_team')
             if not participant_id:
                 return Response({'error': 'Missing participant_id'}, status=400)
             
@@ -300,7 +293,6 @@ def get_teams(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
 
-@login_required
 @api_view(['GET'])
 @is_admin
 def get_team_by_id(request):
@@ -318,7 +310,6 @@ def get_team_by_id(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
     
-@login_required
 @api_view(['GET'])
 @is_admin
 def get_teams_by_name(request):

@@ -64,11 +64,6 @@ class Admin(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
 
-# @receiver(post_save, sender=Admin)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         print("Creating Token")
-#         if instance.pk:  # Vérifie que l'utilisateur existe bien
-#             Token.objects.create(user=instance)
+
+
