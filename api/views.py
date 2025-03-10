@@ -200,7 +200,7 @@ def add_participant(request):
 def delete_participant(request):
     try:
         if request.method == 'DELETE': 
-            participant_id = request.GET.get('participant_id')
+            participant_id = request.data.get('participant_id')
             Participant.objects.filter(participant_id=participant_id).delete()
             return Response({'message': 'Participant deleted successfully'}, status=200)
         return Response({'error': 'Method not allowed'}, status=405)
