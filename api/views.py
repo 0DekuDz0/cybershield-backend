@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from .models import Participant,Team,Admin
+from .models import Participant, Stat,Team,Admin
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
@@ -109,7 +109,7 @@ def get_participants_by_status(request):
 def get_participants_by_team(request):
     try: 
             if request.method == 'GET':
-                team_id = request.GET.get('participant_team')
+                team_id = request.GET.get('team_id')
                 if not team_id:
                     return Response({'error': 'Missing team_id'}, status=400)
 
@@ -135,7 +135,6 @@ def add_participant(request):
             participant_github = request.data.get('participant_github')
             participant_portfolio = request.data.get('participant_portfolio')
             participant_haveParticipated = request.data.get('participant_haveParticipated')
-            participant_previousExperience = request.data.get('participant_previousExperience')
             participant_status = request.data.get('participant_status')
             participant_team = request.data.get('participant_team')
             new_team = request.data.get('new_team')
@@ -163,7 +162,6 @@ def add_participant(request):
                 participant_github=participant_github,
                 participant_portfolio=participant_portfolio,
                 participant_haveParticipated=participant_haveParticipated,
-                participant_previousExperience=participant_previousExperience,
                 participant_status='Pending',
             )
 
@@ -225,7 +223,6 @@ def update_participant(request):
             participant_github = request.data.get('participant_github')
             participant_portfolio = request.data.get('participant_portfolio')
             participant_haveParticipated = request.data.get('participant_haveParticipated')
-            participant_previousExperience = request.data.get('participant_previousExperience')
             participant_status = request.data.get('participant_status')
             participant_team = request.data.get('participant_team')
             if not participant_id:
@@ -244,7 +241,6 @@ def update_participant(request):
             participant.participant_github = participant_github
             participant.participant_portfolio = participant_portfolio
             participant.participant_haveParticipated = participant_haveParticipated
-            participant.participant_previousExperience = participant_previousExperience
             participant.participant_status = participant_status
             participant.participant_team = team
 
@@ -332,7 +328,7 @@ def get_teams_by_name(request):
 def delete_team(request):
     try:
         if request.method == 'DELETE': 
-            team_id = request.GET.get('team_id')
+            team_id = request.data.get('team_id')
             Team.objects.filter(team_id=team_id).delete()
             return Response({'message': 'Team deleted successfully'}, status=200)
         return Response({'error': 'Method not allowed'}, status=405)
@@ -345,13 +341,12 @@ def delete_team(request):
 def update_team(request):
     try:
         if request.method == 'PUT':
-            data = json.loads(request.body.decode('utf-8'))
-            team_id = data.get('team_id')
-            team_name = data.get('team_name')
-            team_leader = data.get('team_leader')
-            team_project_name = data.get('team_project_name')
-            team_project_description = data.get('team_project_description')
-            team_project_links = data.get('team_project_links')
+            team_id = request.data.get('team_id')
+            team_name = request.data.get('team_name')
+            team_leader = request.data.get('team_leader')
+            team_project_name = request.data.get('team_project_name')
+            team_project_description = request.data.get('team_project_description')
+            team_project_links = request.data.get('team_project_links')
 
             if not team_id:
                 return Response({'error': 'Missing team_id'}, status=400)
@@ -397,12 +392,11 @@ def login(request):
                 key='CyberShieldToken',
                 value=str(refresh.access_token),
                 httponly=True,
-                max_age=timedelta(days=1),
+                max_age=timedelta(days=2),
                 samesite='None',
                 path='/',
                 secure=True,
             )
-            # print(response.cookies)
 
             return response
                     
@@ -431,3 +425,17 @@ def check_admin_auth(req):
             return Response({'message': 'You are authorized to access this page' , "authentication": True}, status=200)
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@api_view(['GET'])
+@is_admin
+def get_stat(req):
+    try:
+        if req.method == 'GET':
+            stat = Stat.objects.get(id=1)
+            stat = model_to_dict(stat)
+            return Response({'stat': stat}, status=200)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+        

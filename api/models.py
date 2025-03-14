@@ -16,7 +16,6 @@ class Participant(models.Model):
     participant_github = models.URLField(max_length=200, blank=False, null=False)
     participant_portfolio = models.URLField(max_length=200, blank=True, null=True)
     participant_haveParticipated = models.BooleanField(default=False, blank=True)
-    participant_previousExperience = models.TextField(blank=True, null=True)
     participant_status = models.CharField(max_length=20, default='Pending', null=True, blank=True)
     participant_team = models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -65,5 +64,12 @@ class Admin(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-
+class Stat(models.Model):
+    id = models.AutoField(primary_key=True)
+    total_participants = models.IntegerField(default=0)
+    total_teams = models.IntegerField(default=0)
+    refused_participants = models.IntegerField(default=0)
+    accepted_participants = models.IntegerField(default=0)
+    all_participants = models.IntegerField(default=0)
+    all_teams = models.IntegerField(default=0)
 
