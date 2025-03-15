@@ -1,6 +1,7 @@
 # CyberShield Backend -- Still in Dev
 
 CyberShield's backend is built with Django and Django REST Framework (DRF) to handle hackathon registrations and admin functionalities securely and efficiently.
+Link : https://cybershield-front.vercel.app/Admin/logIn
 
 ## Features
 
@@ -61,5 +62,5 @@ CyberShield's backend is built with Django and Django REST Framework (DRF) to ha
 
 ---
 
-**Developed by Ramzi & CyberShield Team** 🚀
+**Developed by Yanis (DekuDz)** 🚀
 
