@@ -146,7 +146,7 @@ def add_participant(request):
             required_fields = [
                 participant_name, participant_email, participant_phone,
                 participant_dateOfBirth, participant_skills, participant_linkedin,
-                participant_github, participant_haveParticipated,new_team,team_name
+                participant_github,new_team,team_name
             ]
 
             if any(field is None or field.strip() == "" for field in required_fields):
